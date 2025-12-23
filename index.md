@@ -1,4 +1,4 @@
-# Operating Systems Security Journal
+# Operating Systems Journal
 
 **Student Name:** Rahul Panthi  
 **Student ID:** A00030612  
