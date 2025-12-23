@@ -1,6 +1,17 @@
-# Operating Systems Security Coursework
+# Operating Systems Security Journal
 
-### Weekly Journal Navigation
+**Student Name:** Rahul Panthi  
+**Student ID:** A00030612  
+**Module:** Operating Systems & Security  
+
+---
+
+Welcome to my Operating Systems Security journal.  
+This site documents my weekly progress, practical work, and reflections across seven weeks, focusing on Linux system administration, security hardening, auditing, and evaluation.
+
+---
+
+## Table of Contents
 
 - [Week 1 – System Planning and Environment Setup](week1.md)
 - [Week 2 – User Management and SSH Access](week2.md)
