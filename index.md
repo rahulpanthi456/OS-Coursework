@@ -2,7 +2,7 @@
 
 **Student Name:** Rahul Panthi  
 **Student ID:** A00030612  
-**Module:** Operating Systems & Security  
+**Module:** Operating Systems   
 
 ---
 
