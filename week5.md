@@ -8,9 +8,10 @@ The objective of this phase was to ensure that security controls are not only co
 
 ## Mandatory Access Control Using AppArmor
 
-Ubuntu uses AppArmor as its Mandatory Access Control (MAC) framework to restrict application behaviour and limit the impact of potential compromises. AppArmor was enabled and verified to ensure that security profiles are enforced on the system.
+AppArmor, a Mandatory Access Control (MAC) framework, is used by Ubuntu to limit application behavior and mitigate the effects of possible breaches. To make sure that security profiles are upheld on the system, AppArmor was activated and validated.
 
-Existing AppArmor profiles were reviewed to confirm that services such as SSH are confined according to predefined security policies. This approach reduces the attack surface by preventing processes from accessing unauthorised resources.
+AppArmor profiles that were already in place were examined to make sure that services like SSH are restricted in accordance with established security rules. By stopping processes from accessing unapproved resources, this method lowers the attack surface.
+Evidence
 
 **Evidence**
 
@@ -20,9 +21,9 @@ Existing AppArmor profiles were reviewed to confirm that services such as SSH ar
 
 ## Automatic Security Updates Configuration
 
-To reduce exposure to known vulnerabilities, automatic security updates were configured using the unattended-upgrades mechanism. This ensures that critical security patches are applied automatically without manual intervention.
+The unattended-upgrades mechanism was used to set up automatic security updates to lessen exposure to known vulnerabilities. This guarantees the automatic application of crucial security updates without the need for human intervention.
 
-The configuration was verified to confirm that security repositories are enabled and that automatic updates are scheduled correctly. This measure improves long-term system resilience by minimising patching delays.
+The configuration was checked to make sure that automatic updates are properly scheduled and that security repositories are enabled. By reducing patching delays, this measure enhances long-term system resilience.
 
 **Evidence**
 
