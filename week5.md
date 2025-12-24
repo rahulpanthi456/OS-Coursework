@@ -55,7 +55,8 @@ A security baseline verification script (`security-baseline.sh`) was created and
 Each command in the script is documented with line-by-line comments to explain its purpose. The script can be executed remotely via SSH to validate the system’s security posture at any time.
 
 **Evidence**
-*(Screenshot showing execution of security-baseline.sh via SSH)*
+
+<img width="1290" height="815" alt="week5_security_baseline_script" src="https://github.com/user-attachments/assets/1c2c3133-8cb6-420b-8453-09cafa775c7d" />
 
 ---
 
@@ -66,7 +67,8 @@ A remote monitoring script (`monitor-server.sh`) was developed on the workstatio
 This enables lightweight remote monitoring without requiring additional third-party tools and demonstrates secure remote administration practices.
 
 **Evidence**
-*(Screenshot showing execution of monitor-server.sh and collected metrics)*
+
+<img width="1274" height="799" alt="week5_monitor_server_execution" src="https://github.com/user-attachments/assets/56feabc4-1946-45fb-b02c-58e23636fe70" />
 
 ---
 
