@@ -1,67 +1,101 @@
-
-# Week 3 – Firewall Configuration and SSH Hardening
-
+# Week 3 – Application Selection for Performance Testing
 
 ## Overview
-Week 3 focused on actively hardening the server by restricting network access and strengthening remote authentication controls. A host-based firewall was configured to limit exposed services, and SSH settings were reviewed with the aim of reducing common attack vectors such as brute-force password attacks and unauthorized access.
+Week 3 focused on selecting appropriate applications for performance evaluation in later phases of the coursework. The objective was to identify applications that represent different workload types so that CPU, memory, disk I/O, and network behaviour can be meaningfully analysed under controlled conditions. This planning stage ensures that performance testing conducted in subsequent weeks is structured, repeatable, and aligned with realistic server usage scenarios.
+
+## Application Selection Matrix
+
+| Application        | Workload Type        | Primary Resource | Justification |
+|--------------------|----------------------|------------------|---------------|
+| stress-ng          | CPU-intensive        | CPU              | Selected to generate controlled CPU load, enabling analysis of processor utilisation, scheduling behaviour, and system responsiveness under stress. |
+| stress-ng          | Memory-intensive     | RAM              | Used to apply memory pressure and observe RAM usage, caching behaviour, and potential swap activity. |
+| fio                | I/O-intensive        | Disk I/O         | Chosen to benchmark disk read/write performance and identify I/O bottlenecks and latency issues. |
+| iperf3             | Network-intensive    | Network          | Used to generate network traffic and measure bandwidth, throughput, and latency between systems. |
+| openssh-server     | Server application   | CPU, Network     | Represents a real-world server service, providing a baseline workload during normal remote administration. |
+
+## Installation Documentation (SSH-Based)
+
+All applications were installed remotely via SSH in compliance with the administrative constraint.
+
+### Update Package Index
+```bash
+sudo apt update
+```
+**Screenshot: week3_apt_update.png**
+
+<img width="1284" height="799" alt="week3_apt_update" src="https://github.com/user-attachments/assets/78a08bda-1973-4cb6-a17e-be706b728667" />
 
 ---
 
-## Firewall Activation and Rule Definition
-The Uncomplicated Firewall (UFW) was enabled to enforce network-level access control. Before activation, SSH access was explicitly allowed to prevent accidental lockout.
+### Install CPU and Memory Stress Tool
+```bash
+sudo apt install stress-ng -y
+```
+**Screenshot: week3_stressng_install.png**
 
-The firewall was configured to:
-- Allow incoming SSH connections
-- Deny all other unsolicited inbound traffic by default
-- Allow all outbound traffic
-
-This ensures that only explicitly permitted services are reachable while maintaining system usability.
-
-**(Evidence: `ufw status verbose` after activation)**
-
-<img width="1284" height="815" alt="week3_ufw_active" src="https://github.com/user-attachments/assets/8e03caa6-40b7-4aa5-ad4f-3e03602013ca" />
+<img width="1267" height="794" alt="week3_stressng_install" src="https://github.com/user-attachments/assets/64241f14-7417-4e1f-b5d3-1fc467d890be" />
 
 ---
 
-## Verification of Open Ports
-After enabling the firewall, active listening services were rechecked using `ss -tuln`. The output confirmed that SSH remained accessible on port 22 and that no additional services were unintentionally exposed.
+### Install Disk I/O Benchmark Tool
+```bash
+sudo apt install fio -y
+```
+**Screenshot: week3_fio_install.png**
 
-This validation step confirms that firewall rules are functioning as intended and that access is tightly controlled.
-
-**(Evidence: listening services screenshot)**
-
-<img width="1291" height="807" alt="week3_listening_services" src="https://github.com/user-attachments/assets/93fb8a07-6f12-4c76-9fea-b5886319d806" />
-
----
-
-## SSH Authentication Review
-The SSH daemon configuration file (`/etc/ssh/sshd_config`) was reviewed to assess authentication mechanisms. Password authentication and PAM integration were identified as active, while insecure options such as empty passwords were disabled.
-
-This configuration provides a functional baseline but highlights opportunities for further hardening, such as disabling password-based login and enforcing SSH key authentication in future stages.
-
-**(Evidence: sshd_config review screenshot)**
-
-<img width="1287" height="810" alt="week3_ssh_config_review" src="https://github.com/user-attachments/assets/0afe23d0-4646-4236-b0a8-002687e71f77" />
+<img width="1281" height="800" alt="week3_fio_install" src="https://github.com/user-attachments/assets/62d2f054-07eb-4acd-b935-663eba8b5de9" />
 
 ---
 
-## Service Reliability and Status Confirmation
-The SSH service was checked using `systemctl status ssh` to ensure it remained active after firewall changes. The service was confirmed to be running and listening on both IPv4 and IPv6 interfaces.
+### Install Network Performance Tool
+```bash
+sudo apt install iperf3 -y
+```
+**Screenshot: week3_iperf3_install.png**
 
-Ensuring service availability after security changes is critical to avoid self-inflicted denial of service.
+<img width="1279" height="802" alt="week3_iperf3_install" src="https://github.com/user-attachments/assets/27f5fc44-6f82-4457-98d7-8996b68e7ea1" />
 
-**(Evidence: SSH service status screenshot)**
+<img width="1285" height="794" alt="week3_iperf3_verify" src="https://github.com/user-attachments/assets/9d08d388-c0d4-4a7b-ad24-9b0e17dbc71f" />
 
-<img width="1290" height="804" alt="week3_ssh_status" src="https://github.com/user-attachments/assets/743f2bb2-ebe3-4e61-ba64-cbe2210082d9" />
+---
+
+### Verify SSH Server Availability
+```bash
+sudo systemctl status ssh
+```
+**Screenshot: week3_ssh_status.png**
+
+<img width="1275" height="797" alt="week3_ssh_status" src="https://github.com/user-attachments/assets/74802f28-d5d0-4e33-abbc-97aae80d077c" />
 
 ---
 
-## Security Rationale
-Firewall enforcement significantly reduces the system’s attack surface by limiting exposed entry points. Combined with SSH configuration review, this creates a layered defense model where network filtering and authentication controls work together.
+## Expected Resource Profiles
 
-This approach aligns with the principle of least privilege by allowing only what is required for administration.
+### stress-ng (CPU-intensive)
+High CPU utilisation across one or more cores with minimal memory, disk, and network usage. This workload is suitable for identifying CPU saturation and scheduling effects.
 
----
+### stress-ng (Memory-intensive)
+Increased RAM consumption with possible swap activity under constrained memory conditions. This workload supports analysis of memory pressure and memory management behaviour.
+
+### fio (Disk I/O-intensive)
+High disk read/write throughput with increased I/O wait times under load. This workload enables identification of disk performance bottlenecks and latency limitations.
+
+### iperf3 (Network-intensive)
+High network bandwidth usage during testing with increased packet transmission and reception. This workload allows measurement of throughput and latency.
+
+### OpenSSH Server
+Low to moderate CPU usage with continuous network activity during administrative sessions. This represents a realistic baseline server workload.
+
+## Monitoring Strategy
+
+The following monitoring tools will be used during later performance testing phases:
+CPU usage will be monitored using top and htop.  
+Memory usage will be observed using free -h and vmstat.  
+Disk I/O performance will be measured using iostat and iotop.  
+Network performance will be evaluated using iperf3 and ping.  
+System responsiveness will be assessed using load averages and command execution times.
+
+Metrics will be captured during baseline testing, load testing, and post-optimisation to enable direct comparison and identification of performance bottlenecks.
 
 ## Reflection
-Week 3 marked the transition from system inspection to active security enforcement. Enabling the firewall and validating SSH access demonstrated how defensive controls can be applied without disrupting functionality. These changes establish a strong foundation for future enhancements such as SSH key-only authentication, intrusion detection, and automated monitoring.
+This week established a structured foundation for performance testing by selecting applications that generate diverse system workloads. Defining expected behaviour and monitoring strategies in advance ensures that future performance evaluations are consistent, measurable, and meaningful. This preparation supports effective analysis and optimisation in later stages of the coursework.
