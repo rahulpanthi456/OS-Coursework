@@ -59,6 +59,18 @@ The firewall ruleset was reviewed in full to confirm that only essential service
 
 ---
 
+## Firewall Configuration with Restricted SSH Access
+
+To further reduce the server’s network attack surface, a host-based firewall was configured using UFW (Uncomplicated Firewall). The firewall enforces a default-deny policy for inbound connections while allowing necessary outbound traffic for normal system operation.
+SSH access was explicitly restricted to the administrator’s workstation IP address only. All other inbound SSH connection attempts are denied by default, ensuring that remote administrative access is limited to a single trusted source.
+
+This configuration provides an additional security layer by blocking unauthorised network access before authentication mechanisms are reached, complementing the SSH hardening measures implemented earlier in this phase.
+
+**Evidence – Firewall Ruleset Showing Restricted SSH Access**
+
+<img width="1270" height="796" alt="firewall_restricted_ssh" src="https://github.com/user-attachments/assets/538065f5-6c0b-4bf6-a710-5ce224beb668" />
+
+
 ## Remote Administration via SSH
 All configuration and management tasks during this phase were executed remotely over SSH from the administrator’s workstation. This demonstrates secure remote administration practices and confirms that local console access was not required for system management.
 
