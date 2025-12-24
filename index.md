@@ -6,7 +6,8 @@
 
 ---
 
-Welcome to my Operating Systems Security journal.  
+**Welcome to my Operating Systems Security journal.**
+
 This site documents my weekly progress, practical work, and reflections across seven weeks, focusing on Linux system administration, security hardening, auditing, and evaluation.
 
 ---
