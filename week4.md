@@ -1,72 +1,92 @@
-# Week 4 – SSH Hardening and Intrusion Prevention
-
+# Week 4 – Initial System Configuration & Security (SSH and Firewall Hardening)
 
 ## Overview
-Week 4 focused on strengthening remote access security by hardening the SSH service and introducing basic intrusion prevention mechanisms. Building on the firewall configuration completed in Week 3, this week aimed to reduce the risk of brute-force attacks, privilege abuse, and unauthorized access.
+Week 4 focused on implementing foundational security controls on the Linux server with an emphasis on secure remote administration. All configuration tasks were performed remotely via SSH from the administrator’s workstation, in line with the assessment constraint. The primary objectives were to harden SSH access, restrict network exposure using a firewall, and enforce proper user privilege management.
 
 ---
 
-## SSH Hardening Strategy
-The Secure Shell (SSH) service was identified as the primary administrative access point to the server. As a result, several configuration decisions were planned to minimise exposure while preserving administrative usability.
+## SSH Key-Based Authentication Configuration
+Secure Shell (SSH) was configured to use public key authentication to eliminate reliance on password-based logins. A cryptographic key pair was generated on the administrator’s workstation, and the public key was securely deployed to the server. This ensures that only authorised clients possessing the private key can access the system.
 
-The hardening approach focused on:
-- Restricting high-risk authentication methods
-- Limiting privileged access paths
-- Enforcing safer default behaviours
+Once key-based access was verified, password authentication was disabled to reduce exposure to brute-force and credential-based attacks.
 
-The SSH configuration file (`/etc/ssh/sshd_config`) was reviewed to identify insecure or permissive defaults prior to applying changes.
+This approach significantly strengthens remote access security while maintaining administrative usability.
+
+**Evidence – SSH Key Pair Generation (Workstation)**
+
+<img width="1639" height="856" alt="week4_public_key_workstation" src="https://github.com/user-attachments/assets/222bee84-39e1-48dc-b83a-590e01d093cc" />
+
+---
+
+
+## SSH Hardening and Root Access Restriction
+To minimise the attack surface, SSH was hardened by restricting privileged access paths. Direct root login over SSH was disabled, requiring administrators to authenticate as a standard user and elevate privileges using `sudo` when necessary. This improves accountability and reduces the risk associated with direct root compromise.
+
+SSH configuration changes were applied via the `/etc/ssh/sshd_config` file and validated by restarting the SSH service without interrupting remote access.
+
+**Evidence**
+<img width="1761" height="968" alt="week4_password_auth_disabled" src="https://github.com/user-attachments/assets/9b84e2a6-12b5-4170-abd1-3a1253b2f5e0" />
+
+---
+
+## User Management and Privilege Control
+A dedicated non-root administrative user was created to enforce the principle of least privilege. This user was granted administrative capabilities through membership in the `sudo` group, allowing controlled privilege escalation when required.
+
+All administrative actions were performed using this non-root account, ensuring that routine operations were not executed with unrestricted root privileges.
+
+**Evidence -Non-root Administrative User Creation**
+
+<img width="1297" height="815" alt="week4_user_creation" src="https://github.com/user-attachments/assets/0ca0346b-4e35-4b26-82ea-a7fee7f652f9" />
+
+---
+
+**Evidence – Sudo Privilege Assignment**
+
+<img width="1285" height="807" alt="week4_sudo_assignment" src="https://github.com/user-attachments/assets/ace296f5-14e2-442a-9725-2cbcaaaa5cac" />
+
+---
+
+**Evidence – Privilege Escalation Using Sudo**
+
+<img width="1280" height="803" alt="week4_sudo_usage" src="https://github.com/user-attachments/assets/76b886f3-b604-45c5-9c85-912fab6f2c8a" />
+
+---
+
+## Firewall Configuration with Restricted SSH Access
+A host-based firewall was configured to control inbound network traffic. SSH access was explicitly permitted **only** from the administrator’s workstation IP address, while all other inbound SSH attempts were denied by default. This significantly limits the exposure of the SSH service to unauthorised sources.
+
+The firewall ruleset was reviewed in full to confirm that only essential services were allowed and that default deny policies were enforced.
+
+---
+
+## Remote Administration via SSH
+All configuration and management tasks during this phase were executed remotely over SSH from the administrator’s workstation. This demonstrates secure remote administration practices and confirms that local console access was not required for system management.
+
+Successful SSH access using key-based authentication validated the correctness of the configuration and ensured that administrative access remained available after hardening measures were applied.
+
+**Evidence – Successful SSH Login Using Key-Based Authentication**
+
+<img width="1919" height="1063" alt="week4_ssh_key_login" src="https://github.com/user-attachments/assets/091383fb-ea09-46e2-8d36-73aea6ff6ac1" />
+
+---
+
+## Configuration Validation
+After applying security configurations, service status and access behaviour were verified to ensure stability and correctness. SSH service availability was confirmed following configuration changes, and firewall rules were reviewed to validate correct enforcement.
+
+This validation step ensured that security improvements did not introduce service disruption or administrative lockout.
 
 **Evidence**
 
-<img width="1284" height="802" alt="week4_ssh_hardening_config" src="https://github.com/user-attachments/assets/947fbd8b-821d-4774-943e-f1fdf8b10985" />
-
----
-
-## Root Login Restriction
-Direct root login via SSH represents a significant security risk, as it exposes a highly privileged account to remote attack. The configuration was reviewed to ensure that root login is restricted and that administrative actions are performed through a standard user account with sudo privileges.
-
-This approach improves accountability and reduces the impact of credential compromise.
-
-**Evidence**
-<img width="1282" height="810" alt="week4_root_login_disabled" src="https://github.com/user-attachments/assets/009a41bd-1f1a-4834-b5ae-b1d9e6c5543c" />
-
-
----
-
-## Authentication Method Review
-Password-based authentication was identified as a potential attack vector due to its susceptibility to brute-force and credential stuffing attacks. Public key authentication was verified as available, providing a more secure alternative for remote access.
-
-Password authentication was assessed with the intention of disabling it in favour of key-based authentication once secure access was confirmed.
-
-**Evidence**
-<img width="1288" height="811" alt="week4_password_auth_disabled" src="https://github.com/user-attachments/assets/c65e57a9-86dc-4dd6-9c7f-4c30da70a15c" />
-
----
-
-## Intrusion Prevention Planning
-To mitigate repeated unauthorized login attempts, intrusion prevention was considered as an additional defensive layer. Rate-limiting and automatic banning of suspicious IP addresses were identified as effective countermeasures against brute-force attacks targeting SSH.
-
-This layered defence approach complements firewall rules and authentication controls by actively responding to malicious behaviour.
-
-**Evidence**
-<img width="1293" height="806" alt="week4_fail2ban_install" src="https://github.com/user-attachments/assets/c37f3052-14b5-4435-a0b3-0a79a58f8856" />
-
-
----
-
-## Service Continuity and Validation
-After reviewing planned hardening changes, the SSH service status was consistently monitored to ensure availability was maintained. This step ensures that security improvements do not introduce accidental service disruption or administrative lockout.
+<img width="1280" height="808" alt="week4_ssh_service_status" src="https://github.com/user-attachments/assets/949032c2-00c7-44d6-b008-7a05b75b0f9a" />
 
 ---
 
 ## Security Rationale
-Hardening SSH reduces the system’s exposure to common attack techniques while preserving secure administrative access. By combining firewall enforcement, restricted authentication methods, and intrusion prevention planning, the server moves closer to a defence-in-depth security model.
+The controls implemented in this phase establish a strong security baseline for the server. Key-based SSH authentication, restricted root access, controlled privilege escalation, and firewall-enforced network restrictions work together to reduce attack surface and prevent unauthorised access.
 
-**Evidence**
-<img width="1284" height="810" alt="week4_fail2ban_status" src="https://github.com/user-attachments/assets/8c81201b-6466-4548-9b7b-2b25249befbb" />
-
+These measures form a foundational layer of defence that supports more advanced security mechanisms introduced in later stages.
 
 ---
 
 ## Reflection
-Week 4 represented a shift from basic protection to proactive risk reduction. Reviewing SSH configuration and planning intrusion prevention highlighted the importance of securing essential services without compromising system accessibility. These measures provide a foundation for advanced security controls and monitoring in later stages.
+Week 4 highlighted the importance of securing administrative access paths early in system deployment. Implementing SSH hardening and firewall restrictions demonstrated how small configuration changes can significantly improve security posture. Enforcing non-root administration also reinforced best practices for accountability and risk reduction, providing a solid foundation for subsequent security enhancements.
