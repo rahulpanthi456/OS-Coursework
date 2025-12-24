@@ -75,12 +75,12 @@ This enables lightweight remote monitoring without requiring additional third-pa
 
 ## Security Analysis
 
-The implementation of access control, automated updates, intrusion detection, and verification scripts significantly strengthens the server’s security posture. These measures ensure that controls are continuously enforced, monitored, and auditable.
+The server's security posture is greatly strengthened by the use of access control, automated updates, intrusion detection, and verification scripts. These steps guarantee ongoing enforcement, monitoring, and auditing of controls.
 
-Automating verification and monitoring reduces reliance on manual checks and supports consistent security management practices.
+Automating monitoring and verification lessens the need for human inspections and promotes uniform security management procedures.
 
 ---
 
 ## Reflection
 
-Week 5 represented a shift from static hardening to active security management. Introducing access control enforcement, automated updates, and verification scripts highlighted the importance of maintaining security over time rather than relying solely on initial configuration. This phase established a foundation for continuous monitoring, auditing, and operational security.
+Static hardening gave way to active security management in week five. By implementing automated updates, verification scripts, and access control enforcement, it became clear how crucial it is to maintain security over time rather than depending only on initial configuration. This stage laid the groundwork for ongoing auditing, operational security, and monitoring.
