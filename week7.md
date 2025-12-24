@@ -20,7 +20,9 @@ An initial security audit was conducted using Lynis to assess the baseline secur
 
 The initial hardening index score reflected a partially secured system, typical of a default server installation.
 
-*Screenshot evidence of the initial Lynis scan output and hardening index is provided.*
+**Screenshot evidence of the initial Lynis scan output and hardening index is provided.**
+
+<img width="1282" height="805" alt="week7_lynis_before" src="https://github.com/user-attachments/assets/4dacdaa2-44eb-4c31-a737-2d9a97f9f208" />
 
 ---
 
@@ -39,7 +41,9 @@ Not all Lynis suggestions were implemented, as some recommendations were either 
 ### 3.3 Follow-Up Lynis Audit (Post-Remediation)
 After remediation, a second Lynis scan was performed to evaluate the impact of the applied security controls. The follow-up audit showed an improvement in the hardening index score, confirming that the remediation steps had a positive effect on the system’s security posture.
 
-*Screenshot evidence of the post-remediation Lynis scan and updated hardening index is provided.*
+**Screenshot evidence of the post-remediation Lynis scan and updated hardening index is provided.**
+
+<img width="1276" height="803" alt="week7_Lynis_after" src="https://github.com/user-attachments/assets/fbe3da27-eda8-4e51-9a0a-3b466d0b46a3" />
 
 ---
 
@@ -48,8 +52,9 @@ A comparison of the Lynis hardening index before and after remediation demonstra
 
 | Audit Stage        | Hardening Index |
 |-------------------|-----------------|
-| Pre-Remediation   | [Insert Score]  |
-| Post-Remediation  | [Insert Score]  |
+| Pre-Remediation   | 60              |
+| Post-Remediation  | 61              |
+
 
 This comparison confirms that targeted security improvements were successfully implemented.
 
@@ -61,7 +66,11 @@ A network security assessment was conducted using `nmap` to identify open ports 
 
 The scan results showed that only essential ports required for system operation were open. No unexpected or unnecessary network services were detected.
 
-*Screenshot evidence of the nmap scan output is provided.*
+**Screenshot evidence of the nmap scan output is provided.**
+
+<img width="1288" height="814" alt="week7_nmap_scan" src="https://github.com/user-attachments/assets/c189fdeb-90f2-4773-8d76-ad937a793d30" />
+
+---
 
 ### Interpretation of Results
 - Open ports were limited to services explicitly required for remote administration.
@@ -80,7 +89,9 @@ Key observations include:
 
 These controls reduce the risk of unauthorised access while maintaining necessary administrative functionality.
 
-*Screenshot evidence of SSH configuration verification is provided.*
+**Screenshot evidence of SSH configuration verification is provided.**
+
+<img width="1282" height="810" alt="week7_ssh_config" src="https://github.com/user-attachments/assets/fb5cbe51-f98a-4e08-ba9b-f56ad333ff94" />
 
 ---
 
@@ -94,7 +105,12 @@ A service audit was conducted to identify all active system services. Only essen
 
 No unnecessary or unused services were identified. Limiting running services reduces potential attack vectors and aligns with the principle of least privilege.
 
-*Screenshot evidence of running services is provided.*
+**Screenshot evidence of running services is provided.**
+
+<img width="1283" height="806" alt="week7_running_services" src="https://github.com/user-attachments/assets/aba0ceeb-1492-4807-a9d7-141c92f40361" />
+
+Security-focused services such as auditd and fail2ban are intentionally enabled to support system auditing and protection against brute-force attacks, while Postfix is configured in local-only mode to support security alerting without exposing additional network services.
+
 
 ---
 
@@ -110,7 +126,7 @@ The system configuration demonstrates a consistent and layered security approach
 
 ## 8. Remaining Risks and Limitations
 Despite the applied security controls, some residual risks remain. These include:
-- Dependence on password-based SSH authentication if key-based authentication is not enforced.
+- Dependence on SSH key management practices, where compromised private keys could still present a security risk if not adequately protected.
 - Potential vulnerabilities introduced by future package updates.
 - Limitations inherent to a virtualised environment.
 
